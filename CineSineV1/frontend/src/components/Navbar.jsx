@@ -47,7 +47,7 @@ const Navbar = () => {
         <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#f8f4ed] py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
 
             {/* Logo */}
-            
+
             <div className={`relative z-50 text-2xl md:text-3xl font-bold tracking-[0.2em] font-serif ${textColorClass} transition-colors duration-300`}>
                 <Link to="/"><img src={logo} alt="Logo" className="w-[180px]" /></Link>
             </div>
