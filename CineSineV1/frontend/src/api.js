@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Normalize API URL - remove trailing slashes to prevent double-slash issues
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/+$/, '');
 
 export const fetchStories = () => axios.get(`${API_URL}/stories`);
 export const fetchStoryById = (id) => axios.get(`${API_URL}/stories/${id}`);

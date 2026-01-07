@@ -13,8 +13,10 @@ const httpServer = createServer(app);
 
 // Allowed Origins for CORS
 const allowedOrigins = [
-  "http://localhost:5173", 
-  process.env.FRONTEND_URL // Production URL from Vercel Env
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://cinesinev1f.vercel.app",
+  process.env.FRONTEND_URL // Additional Production URL from Vercel Env (if set)
 ].filter(Boolean);
 
 // Socket.io Setup
