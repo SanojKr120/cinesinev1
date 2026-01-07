@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaInstagram, FaYoutube, FaFacebook } from 'react-icons/fa';
-import logo from '../logos/cinesineNavLogo_4.png';
+import logo from '../logos/cinesineNavLogo2.jpg';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {

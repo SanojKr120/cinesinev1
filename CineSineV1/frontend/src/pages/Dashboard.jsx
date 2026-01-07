@@ -11,7 +11,7 @@ import {
     createPhotobook, updatePhotobook, createImage, createFilm, updateFilm,
     createPreWedding, updatePreWedding, createStory, updateStory
 } from '../api';
-import logo from '../logos/cinesineNavLogo_4.png';
+import logo from '../logos/cinesineNavLogo2.jpg';
 
 const Dashboard = () => {
     const navigate = useNavigate();

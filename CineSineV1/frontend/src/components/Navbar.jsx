@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../logos/cinesineNavLogo_4.png';
+import logo from '../logos/cinesineNavLogo2.jpg';
 
 
 const Navbar = () => {
