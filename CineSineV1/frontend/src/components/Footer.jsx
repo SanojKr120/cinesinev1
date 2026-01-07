@@ -1,0 +1,52 @@
+import React from 'react';
+import { FaInstagram, FaYoutube, FaFacebook } from 'react-icons/fa';
+import logo from '../logos/cinesineNavLogo_4.png';
+import { Link } from 'react-router-dom';
+
+const Footer = () => {
+    return (
+        <footer className="bg-[#1a1a1a] text-[#f8f4ed] py-16 px-6">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+                {/* Brand */}
+                <div className="text-center md:text-left">
+                    <Link to="/" className="inline-block mb-4">
+                        <img src={logo} alt="CineSine" className="w-48 mx-auto md:mx-0" />
+                    </Link>
+                    <p className="font-sans text-gray-400 text-sm leading-relaxed">
+                        Capturing the timeless moments of your life with cinematic excellence.
+                        Wedding Videography, Photography, and Event storytelling.
+                    </p>
+                </div>
+
+                {/* Quick Links */}
+                <div className="text-center">
+                    <h4 className="font-serif text-sm uppercase tracking-[0.2em] mb-6 text-gray-400">Quick Links</h4>
+                    <ul className="space-y-3 font-sans text-sm">
+                        <li><Link to="/stories" className="hover:text-white transition">Stories</Link></li>
+                        <li><Link to="/films" className="hover:text-white transition">Films</Link></li>
+                        <li><Link to="/contact" className="hover:text-white transition">Contact</Link></li>
+                        <li><Link to="/faq" className="hover:text-white transition">FAQ</Link></li>
+                    </ul>
+                </div>
+
+                {/* Social */}
+                <div className="text-center md:text-right">
+                    <h4 className="font-serif text-sm uppercase tracking-[0.2em] mb-6 text-gray-400">Follow Us</h4>
+                    <div className="flex justify-center md:justify-end gap-6 text-2xl">
+                        <a href="#" aria-label="Instagram" className="hover:text-[#d4af37] transition"><FaInstagram /></a>
+                        <a href="#" aria-label="YouTube" className="hover:text-[#d4af37] transition"><FaYoutube /></a>
+                        <a href="#" aria-label="Facebook" className="hover:text-[#d4af37] transition"><FaFacebook /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div className="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p className="text-xs text-gray-500 font-sans tracking-widest">
+                    &copy; {new Date().getFullYear()} CINESINE. ALL RIGHTS RESERVED.
+                </p>
+            </div>
+        </footer>
+    );
+};
+
+export default Footer;
