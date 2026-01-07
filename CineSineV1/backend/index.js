@@ -51,19 +51,64 @@ app.get('/', (req, res) => {
 });
 
 // Database Connection (Cached for Serverless)
-let isConnected = false;
+// Database Connection (Cached for Serverless)
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
-    if (isConnected) return;
-    try {
-        const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/cinesine');
-        isConnected = !!conn.connections[0].readyState;
-        console.log('MongoDB Connected');
-    } catch (err) {
-        console.error('MongoDB Connection Error:', err);
+    if (cached.conn) {
+        return cached.conn;
     }
+
+    if (!cached.promise) {
+        const opts = {
+            bufferCommands: false, // Disable buffering to fail fast if no connection
+        };
+
+        const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/cinesine';
+
+        if (!uri) {
+             throw new Error("MONGODB_URI is not defined in environment variables");
+        }
+
+        cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
+            console.log('MongoDB Connected');
+            return mongoose;
+        }).catch(err => {
+             console.error("MongoDB Initial Connection Error:", err);
+             throw err;
+        });
+    }
+
+    try {
+        cached.conn = await cached.promise;
+    } catch (e) {
+        cached.promise = null;
+        console.error("MongoDB Connection Await Error:", e);
+        throw e;
+    }
+
+    return cached.conn;
 };
-// Connect on load
-connectDB();
+
+// Middleware to ensure DB connection on every request (critical for serverless)
+app.use(async (req, res, next) => {
+    // Skip DB connection for basic root route if preferred, but general API needs it
+    if (req.path === '/') { 
+        return next();
+    }
+    
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error("Database connection failed during request:", error);
+        res.status(500).json({ message: "Database connection failed", error: error.message });
+    }
+});
 
 
 // Socket.io Events
