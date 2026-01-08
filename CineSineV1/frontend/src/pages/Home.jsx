@@ -13,15 +13,23 @@ const Home = () => {
             className="min-h-screen"
         >
             {/* Hero Section with Video/Image Background */}
-            <section className="h-screen relative overflow-hidden flex items-center justify-center bg-black">
+            <section className="h-screen relative overflow-hidden flex items-center justify-center bg-transparent">
                 {/* Cinematic Background Gradient (Subtle) */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent z-10 pointer-events-none"></div>
 
                 {/* Using high-quality wedding image as fallback since demo video is unavailable */}
+                {/* Mobile Background Image (Existing) */}
                 <img
                     src={homehero}
-                    alt="Wedding Background"
-                    className="absolute inset-0 w-full h-full object-contain"
+                    alt="Wedding Background Mobile"
+                    className="absolute inset-0 w-full h-full object-cover md:hidden"
+                />
+
+                {/* Desktop Background Image (New - Wide Cinematic) */}
+                <img
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070"
+                    alt="Wedding Background Desktop"
+                    className="absolute inset-0 w-full h-full object-cover hidden md:block"
                 />
 
                 <div className="relative z-20 text-center text-white px-4 mt-44 selection:bg-pink-500 selection:text-white">
