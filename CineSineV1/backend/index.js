@@ -12,31 +12,44 @@ const app = express();
 const httpServer = createServer(app);
 
 // Allowed Origins for CORS
+// Allowed Origins for CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://cinesinev1f.vercel.app",
-  process.env.FRONTEND_URL // Additional Production URL from Vercel Env (if set)
+  process.env.FRONTEND_URL 
 ].filter(Boolean);
+
+// Dynamic CORS Origin Check helper
+const checkOrigin = (origin, callback) => {
+  // Allow requests with no origin (like mobile apps or curl requests)
+  if (!origin) return callback(null, true);
+  
+  // Check against allowed static list
+  if (allowedOrigins.includes(origin)) return callback(null, true);
+
+  // Dynamic check for Vercel previews (allow specific frontend project previews)
+  // This securely matches any preview URL starting with your project name
+  if (origin.startsWith('https://cinesinev1f') && origin.endsWith('.vercel.app')) {
+    return callback(null, true);
+  }
+
+  console.warn(`Blocked by CORS: ${origin}`);
+  callback(new Error('Not allowed by CORS'));
+};
 
 // Socket.io Setup
 const io = new Server(httpServer, {
   cors: {
-    origin: allowedOrigins,
-    methods: ["GET", "POST"]
+    origin: checkOrigin,
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
 // Middleware
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`Blocked by CORS: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: checkOrigin,
   credentials: true
 }));
 
