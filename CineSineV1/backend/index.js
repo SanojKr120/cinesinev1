@@ -63,6 +63,22 @@ app.get('/', (req, res) => {
   res.send('CineSine API is running...');
 });
 
+// Health Check Endpoint
+app.get('/health', (req, res) => {
+    const dbStatus = mongoose.connection.readyState;
+    const statusCodes = {
+        0: 'disconnected',
+        1: 'connected',
+        2: 'connecting',
+        3: 'disconnecting'
+    };
+    res.json({
+        status: 'active',
+        database: statusCodes[dbStatus] || 'unknown',
+        timestamp: new Date().toISOString()
+    });
+});
+
 // Database Connection (Cached for Serverless)
 // Database Connection (Cached for Serverless)
 let cached = global.mongoose;
