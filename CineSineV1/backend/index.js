@@ -1,47 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import mongoose from 'mongoose';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import mongoose from 'mongoose'; // Needed for health check readystate
 import apiRoutes from './routes/apiRoutes.js';
+import connectDB from './config/db.js';
+import { corsOriginCheck } from './config/corsConfig.js';
 
 dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
 
-// Allowed Origins for CORS
-// Allowed Origins for CORS
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "https://cinesinev1f.vercel.app",
-  process.env.FRONTEND_URL 
-].filter(Boolean);
-
-// Dynamic CORS Origin Check helper
-const checkOrigin = (origin, callback) => {
-  // Allow requests with no origin (like mobile apps or curl requests)
-  if (!origin) return callback(null, true);
-  
-  // Check against allowed static list
-  if (allowedOrigins.includes(origin)) return callback(null, true);
-
-  // Dynamic check for Vercel previews (allow specific frontend project previews)
-  // This securely matches any preview URL starting with your project name
-  if (origin.startsWith('https://cinesinev1f') && origin.endsWith('.vercel.app')) {
-    return callback(null, true);
-  }
-
-  console.warn(`Blocked by CORS: ${origin}`);
-  callback(new Error('Not allowed by CORS'));
-};
-
 // Socket.io Setup
 const io = new Server(httpServer, {
   cors: {
-    origin: checkOrigin,
+    origin: corsOriginCheck,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -49,14 +24,33 @@ const io = new Server(httpServer, {
 
 // Middleware
 app.use(cors({
-  origin: checkOrigin,
+  origin: corsOriginCheck,
   credentials: true
 }));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Database Connection Middleware (Ensure connection on every request)
+app.use(async (req, res, next) => {
+    // Skip DB connection for basic health checks to avoid overhead if DB is down
+    if (req.path === '/health') {
+       // We still want to try connecting inside the health route logic, 
+       // but we won't block the request here if it fails, so we can return "down" status.
+       // Actually, for consistency let's just connect.
+    }
+    
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error("Database connection failed during request:", error);
+        res.status(500).json({ message: "Database connection failed", error: error.message });
+    }
+});
+
 // Routes
+// MOUNTED AT ROOT as requested (Removing /api prefix)
 app.use('/', apiRoutes);
 
 app.get('/', (req, res) => {
@@ -79,67 +73,6 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Database Connection (Cached for Serverless)
-// Database Connection (Cached for Serverless)
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-const connectDB = async () => {
-    if (cached.conn) {
-        return cached.conn;
-    }
-
-    if (!cached.promise) {
-        const opts = {
-            bufferCommands: false, // Disable buffering to fail fast if no connection
-        };
-
-        const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/cinesine';
-
-        if (!uri) {
-             throw new Error("MONGODB_URI is not defined in environment variables");
-        }
-
-        cached.promise = mongoose.connect(uri, opts).then((mongoose) => {
-            console.log('MongoDB Connected');
-            return mongoose;
-        }).catch(err => {
-             console.error("MongoDB Initial Connection Error:", err);
-             throw err;
-        });
-    }
-
-    try {
-        cached.conn = await cached.promise;
-    } catch (e) {
-        cached.promise = null;
-        console.error("MongoDB Connection Await Error:", e);
-        throw e;
-    }
-
-    return cached.conn;
-};
-
-// Middleware to ensure DB connection on every request (critical for serverless)
-app.use(async (req, res, next) => {
-    // Skip DB connection for basic root route if preferred, but general API needs it
-    if (req.path === '/') { 
-        return next();
-    }
-    
-    try {
-        await connectDB();
-        next();
-    } catch (error) {
-        console.error("Database connection failed during request:", error);
-        res.status(500).json({ message: "Database connection failed", error: error.message });
-    }
-});
-
-
 // Socket.io Events
 io.on('connection', (socket) => {
   console.log('New client connected:', socket.id);
@@ -151,19 +84,11 @@ io.on('connection', (socket) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 
-// Only listen if not imported as a module (i.e., running directly)
-// OR if in dev mode. Vercel loads this file and uses the export.
 if (process.env.NODE_ENV !== 'production') {
     httpServer.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
-} else {
-    // In production (Vercel), we might still need to listen if using a custom server pattern?
-    // Actually Vercel automatically handles the listening if we export the app.
-    // BUT we attached socket.io to httpServer. 
-    // To support Socket.io on Vercel, we often need to export httpServer or app.
-    // Exporting app works for HTTP routes. Socket.io might fail silently.
-    // We will export app as default.
 }
 
+// Export for Vercel
 export default app;
