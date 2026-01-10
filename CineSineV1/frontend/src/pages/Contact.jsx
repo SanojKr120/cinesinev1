@@ -99,7 +99,7 @@ const Contact = () => {
                         transition={{ delay: 0.1 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="name" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="name" className="block font-serif text-base tracking-[0.2em] text-gray-800 uppercase">
                             Your Name (required)
                         </label>
                         <input
@@ -119,7 +119,7 @@ const Contact = () => {
                         transition={{ delay: 0.15 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="weddingDates" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="weddingDates" className="block font-serif text-base tracking-[0.2em] text-gray-800 uppercase">
                             Your Wedding Dates (required)
                         </label>
                         <input
@@ -139,10 +139,10 @@ const Contact = () => {
                         transition={{ delay: 0.2 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="eventDetails" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="eventDetails" className="block font-serif text-base tracking-[0.2em] text-gray-800 uppercase">
                             Event Details (required)
                         </label>
-                        <p className="text-xs md:text-sm text-gray-500 font-serif italic mb-2">What are the tentative events / functions / timings per day</p>
+                        <p className="text-sm text-gray-500 font-serif italic mb-2">What are the tentative events / functions / timings per day</p>
                         <textarea
                             id="eventDetails"
                             rows="4"
@@ -160,10 +160,10 @@ const Contact = () => {
                         transition={{ delay: 0.25 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="venue" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="venue" className="block font-serif text-base tracking-[0.2em] text-gray-800 uppercase">
                             Venue (required)
                         </label>
-                        <p className="text-xs md:text-sm text-gray-500 font-serif italic mb-2">Please mention the hotel, city & the country</p>
+                        <p className="text-sm text-gray-500 font-serif italic mb-2">Please mention the hotel, city & the country</p>
                         <input
                             id="venue"
                             type="text"
@@ -181,7 +181,7 @@ const Contact = () => {
                         transition={{ delay: 0.3 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="contactNumber" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="contactNumber" className="block font-serif text-base tracking-[0.2em] text-gray-800 uppercase">
                             Contact Number (required)
                         </label>
                         <input
@@ -201,7 +201,7 @@ const Contact = () => {
                         transition={{ delay: 0.35 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="email" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="email" className="block font-serif text-base tracking-[0.2em] text-gray-800 uppercase">
                             Your Email (required)
                         </label>
                         <input
@@ -221,7 +221,7 @@ const Contact = () => {
                         transition={{ delay: 0.4 }}
                         className="space-y-4 pt-4"
                     >
-                        <label className="block font-serif text-sm md:text-base tracking-[0.1em] text-gray-600 uppercase">
+                        <label className="block font-serif text-base tracking-[0.1em] text-gray-600 uppercase">
                             How did you hear about us?
                         </label>
                         <div className="space-y-2 font-serif text-gray-700">
