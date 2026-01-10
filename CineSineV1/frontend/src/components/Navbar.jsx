@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../logos/cinesinelogo2.PNG';
+import logo from '../logos/cinesinelogo.png';
 
 
 const Navbar = () => {
@@ -26,11 +26,11 @@ const Navbar = () => {
 
     // Logic: 
     // - If Home and NOT scrolled: Text is White (over video).
-    // - If Home and Scrolled: Text is Black (over cream bg).
-    // - If Not Home: Text is Black (always cream/white bg).
-    // - If Mobile Menu is Open: Text is Black (on cream overlay).
-    const textColorClass = (isHome && !isScrolled && !isMobileMenuOpen) ? 'text-white' : 'text-[#333]';
-    const hamburgerColorClass = (isHome && !isScrolled && !isMobileMenuOpen) ? 'bg-white' : 'bg-[#333]';
+    // - If Home and Scrolled: Text is Cream (over black bg).
+    // - If Not Home: Text is Cream (always black bg).
+    // - If Mobile Menu is Open: Text is Cream (on black overlay).
+    const textColorClass = (isHome && !isScrolled && !isMobileMenuOpen) ? 'text-white' : 'text-[#f8f4ed]';
+    const hamburgerColorClass = (isHome && !isScrolled && !isMobileMenuOpen) ? 'bg-white' : 'bg-[#f8f4ed]';
 
     const links = [
         { path: '/stories', label: 'Stories' },
@@ -44,7 +44,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#f8f4ed] py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#1a1a1a] py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
 
             {/* Logo */}
 
@@ -55,7 +55,14 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <ul className={`hidden lg:flex flex-wrap justify-center gap-8 font-serif text-xs tracking-[0.2em] uppercase font-semibold ${textColorClass}`}>
                 {links.map(link => (
-                    <li key={link.path}><Link to={link.path} className="hover:opacity-70 transition">{link.label}</Link></li>
+                    <li key={link.path}>
+                        <Link
+                            to={link.path}
+                            className={`hover:opacity-70 transition ${location.pathname === link.path ? 'text-[#f58631]' : ''}`}
+                        >
+                            {link.label}
+                        </Link>
+                    </li>
                 ))}
             </ul>
 
@@ -85,7 +92,7 @@ const Navbar = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="fixed inset-0 bg-[#f8f4ed] z-40 flex flex-col items-center justify-center"
+                        className="fixed inset-0 bg-[#1a1a1a] z-40 flex flex-col items-center justify-center"
                     >
                         <ul className="flex flex-col gap-4 text-center">
                             {links.map((link, index) => (
@@ -97,7 +104,7 @@ const Navbar = () => {
                                 >
                                     <Link
                                         to={link.path}
-                                        className="font-serif text-lg text-[#333] uppercase tracking-[0.2em] hover:text-[#d4af37] transition"
+                                        className={`font-serif text-lg uppercase tracking-[0.2em] hover:text-[#d4af37] transition ${location.pathname === link.path ? 'text-[#f58631]' : 'text-[#f8f4ed]'}`}
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         {link.label}
