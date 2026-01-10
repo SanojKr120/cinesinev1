@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import FloatingActionButtons from './components/FloatingActionButtons';
 
 // Pages
 import Home from './pages/Home';
@@ -68,6 +69,7 @@ function App() {
                     <AnimatedRoutes />
                 </main>
                 <Footer />
+                <FloatingActionButtons />
             </div>
         </Router>
     )
