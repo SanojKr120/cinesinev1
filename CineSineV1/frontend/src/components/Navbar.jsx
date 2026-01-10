@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../logos/cinesinelogo2.PNG';
+import logo from '../logos/cinesinelogo.png';
 
 
 const Navbar = () => {
@@ -44,7 +44,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#f8f4ed] py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? ' py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
 
             {/* Logo */}
 
