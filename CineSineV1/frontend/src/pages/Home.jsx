@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedSection, fadeInUp, staggerContainer, scaleIn } from '../components/AnimationUtils';
 import homehero from '../images/homehero.jpg';
+import heroimg1 from '../images/homeimg1.jpg';
+import heroimg2 from '../images/homeimg2.jpg';
+import heroimg3 from '../images/homeimg3.jpg';
 
 const Home = () => {
     return (
@@ -118,7 +121,7 @@ const Home = () => {
                             <motion.img
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.7 }}
-                                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800"
+                                src={heroimg1}
                                 alt="Emotions"
                                 className="w-full h-full object-cover"
                             />
@@ -131,7 +134,7 @@ const Home = () => {
                             <motion.img
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.7 }}
-                                src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?q=80&w=800"
+                                src={heroimg2}
                                 alt="Portraits"
                                 className="w-full h-full object-cover"
                             />
@@ -144,7 +147,7 @@ const Home = () => {
                             <motion.img
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ duration: 0.7 }}
-                                src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800"
+                                src={heroimg3}
                                 alt="Details"
                                 className="w-full h-full object-cover"
                             />
