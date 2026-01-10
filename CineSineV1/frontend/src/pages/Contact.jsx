@@ -99,7 +99,7 @@ const Contact = () => {
                         transition={{ delay: 0.1 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="name" className="block font-serif text-xs md:text-sm tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="name" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
                             Your Name (required)
                         </label>
                         <input
@@ -109,7 +109,7 @@ const Contact = () => {
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 rounded-none placeholder-gray-400 font-serif"
                             placeholder="Type here..."
                         />
-                        {formik.touched.name && formik.errors.name && <div className="text-red-800 text-xs mt-1 font-serif">{formik.errors.name}</div>}
+                        {formik.touched.name && formik.errors.name && <div className="text-red-800 text-sm mt-1 font-serif">{formik.errors.name}</div>}
                     </motion.div>
 
                     {/* Wedding Dates */}
@@ -119,7 +119,7 @@ const Contact = () => {
                         transition={{ delay: 0.15 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="weddingDates" className="block font-serif text-xs md:text-sm tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="weddingDates" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
                             Your Wedding Dates (required)
                         </label>
                         <input
@@ -129,7 +129,7 @@ const Contact = () => {
                             {...formik.getFieldProps('weddingDates')}
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 rounded-none placeholder-gray-400 font-serif"
                         />
-                        {formik.touched.weddingDates && formik.errors.weddingDates && <div className="text-red-800 text-xs mt-1 font-serif">{formik.errors.weddingDates}</div>}
+                        {formik.touched.weddingDates && formik.errors.weddingDates && <div className="text-red-800 text-sm mt-1 font-serif">{formik.errors.weddingDates}</div>}
                     </motion.div>
 
                     {/* Event Details */}
@@ -139,10 +139,10 @@ const Contact = () => {
                         transition={{ delay: 0.2 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="eventDetails" className="block font-serif text-xs md:text-sm tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="eventDetails" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
                             Event Details (required)
                         </label>
-                        <p className="text-[10px] md:text-xs text-gray-500 font-serif italic mb-2">What are the tentative events / functions / timings per day</p>
+                        <p className="text-xs md:text-sm text-gray-500 font-serif italic mb-2">What are the tentative events / functions / timings per day</p>
                         <textarea
                             id="eventDetails"
                             rows="4"
@@ -150,7 +150,7 @@ const Contact = () => {
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 resize-none rounded-none placeholder-gray-400 font-serif"
                             placeholder="Type here..."
                         ></textarea>
-                        {formik.touched.eventDetails && formik.errors.eventDetails && <div className="text-red-800 text-xs mt-1 font-serif">{formik.errors.eventDetails}</div>}
+                        {formik.touched.eventDetails && formik.errors.eventDetails && <div className="text-red-800 text-sm mt-1 font-serif">{formik.errors.eventDetails}</div>}
                     </motion.div>
 
                     {/* Venue */}
@@ -160,10 +160,10 @@ const Contact = () => {
                         transition={{ delay: 0.25 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="venue" className="block font-serif text-xs md:text-sm tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="venue" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
                             Venue (required)
                         </label>
-                        <p className="text-[10px] md:text-xs text-gray-500 font-serif italic mb-2">Please mention the hotel, city & the country</p>
+                        <p className="text-xs md:text-sm text-gray-500 font-serif italic mb-2">Please mention the hotel, city & the country</p>
                         <input
                             id="venue"
                             type="text"
@@ -171,7 +171,7 @@ const Contact = () => {
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 rounded-none placeholder-gray-400 font-serif"
                             placeholder="Type here..."
                         />
-                        {formik.touched.venue && formik.errors.venue && <div className="text-red-800 text-xs mt-1 font-serif">{formik.errors.venue}</div>}
+                        {formik.touched.venue && formik.errors.venue && <div className="text-red-800 text-sm mt-1 font-serif">{formik.errors.venue}</div>}
                     </motion.div>
 
                     {/* Contact Number */}
@@ -181,7 +181,7 @@ const Contact = () => {
                         transition={{ delay: 0.3 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="contactNumber" className="block font-serif text-xs md:text-sm tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="contactNumber" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
                             Contact Number (required)
                         </label>
                         <input
@@ -191,7 +191,7 @@ const Contact = () => {
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 rounded-none placeholder-gray-400 font-serif"
                             placeholder="+91 XXXXX XXXXX"
                         />
-                        {formik.touched.contactNumber && formik.errors.contactNumber && <div className="text-red-800 text-xs mt-1 font-serif">{formik.errors.contactNumber}</div>}
+                        {formik.touched.contactNumber && formik.errors.contactNumber && <div className="text-red-800 text-sm mt-1 font-serif">{formik.errors.contactNumber}</div>}
                     </motion.div>
 
                     {/* Email */}
@@ -201,7 +201,7 @@ const Contact = () => {
                         transition={{ delay: 0.35 }}
                         className="space-y-2"
                     >
-                        <label htmlFor="email" className="block font-serif text-xs md:text-sm tracking-[0.2em] text-gray-800 uppercase">
+                        <label htmlFor="email" className="block font-serif text-sm md:text-base tracking-[0.2em] text-gray-800 uppercase">
                             Your Email (required)
                         </label>
                         <input
@@ -211,7 +211,7 @@ const Contact = () => {
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 rounded-none placeholder-gray-400 font-serif"
                             placeholder="you@example.com"
                         />
-                        {formik.touched.email && formik.errors.email && <div className="text-red-800 text-xs mt-1 font-serif">{formik.errors.email}</div>}
+                        {formik.touched.email && formik.errors.email && <div className="text-red-800 text-sm mt-1 font-serif">{formik.errors.email}</div>}
                     </motion.div>
 
                     {/* Referral */}
@@ -221,7 +221,7 @@ const Contact = () => {
                         transition={{ delay: 0.4 }}
                         className="space-y-4 pt-4"
                     >
-                        <label className="block font-serif text-sm tracking-[0.1em] text-gray-600 uppercase">
+                        <label className="block font-serif text-sm md:text-base tracking-[0.1em] text-gray-600 uppercase">
                             How did you hear about us?
                         </label>
                         <div className="space-y-2 font-serif text-gray-700">
@@ -250,7 +250,7 @@ const Contact = () => {
                             type="submit"
                             whileHover={{ scale: 1.02, backgroundColor: "#000" }}
                             whileTap={{ scale: 0.98 }}
-                            className="bg-[#333] text-white px-12 py-4 font-serif uppercase tracking-[0.2em] transition-all text-sm"
+                            className="bg-[#333] text-white px-12 py-4 font-serif uppercase tracking-[0.2em] transition-all text-base"
                         >
                             Submit Message
                         </motion.button>

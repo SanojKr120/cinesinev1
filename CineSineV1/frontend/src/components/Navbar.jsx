@@ -44,7 +44,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#1a1a1a] py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#1a1a1a]/80 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
 
             {/* Logo */}
 
