@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-// import logo from '../logos/cinesinenavlogo1.jpg';
-import logo from '../logos/cinesinenavlogo2.png';
+import logo from '../logos/cinesinelogo2.PNG';
 
 
 const Navbar = () => {
@@ -50,7 +49,7 @@ const Navbar = () => {
             {/* Logo */}
 
             <div className={`relative z-50 text-2xl md:text-3xl font-bold tracking-[0.2em] font-serif ${textColorClass} transition-colors duration-300`}>
-                <Link to="/"><img src={logo} alt="Logo" className="w-[180px]" /></Link>
+                <Link to="/"><img src={logo} alt="Logo" className="w-[180px] m-0 p-0" /></Link>
             </div>
 
             {/* Desktop Menu */}
