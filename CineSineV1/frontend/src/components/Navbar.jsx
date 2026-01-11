@@ -22,6 +22,18 @@ const Navbar = () => {
         setIsMobileMenuOpen(false);
     }, [location]);
 
+    // Prevent background scrolling when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isMobileMenuOpen]);
+
     const isHome = location.pathname === '/';
 
     // Logic: 
@@ -68,7 +80,7 @@ const Navbar = () => {
 
             {/* Mobile/Tablet Menu Button (Hamburger - 2 Lines style like TWS) */}
             <button
-                className="lg:hidden relative z-50 p-2 focus:outline-none group"
+                className="lg:hidden relative z-50 p-4 focus:outline-none group"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle Menu"
             >
@@ -91,7 +103,7 @@ const Navbar = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
                         className="fixed inset-0 bg-[#1a1a1a] z-40 flex flex-col items-center justify-center"
                     >
                         <ul className="flex flex-col gap-4 text-center">

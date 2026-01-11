@@ -39,9 +39,9 @@ const Footer = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Instagram"
-                            whileHover={{ scale: 1.2, rotate: 5 }}
-                            whileTap={{ scale: 0.9 }}
-                            transition={{ type: "spring", stiffness: 300 }}
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
                             className="text-[#E4405F] hover:text-[#ff6b8a] transition-colors duration-300"
                         >
                             <FaInstagram />
@@ -51,9 +51,9 @@ const Footer = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="YouTube"
-                            whileHover={{ scale: 1.2, rotate: -5 }}
-                            whileTap={{ scale: 0.9 }}
-                            transition={{ type: "spring", stiffness: 300 }}
+                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
                             className="text-[#FF0000] hover:text-[#ff4d4d] transition-colors duration-300"
                         >
                             <FaYoutube />
@@ -63,9 +63,9 @@ const Footer = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Facebook"
-                            whileHover={{ scale: 1.2, rotate: 5 }}
-                            whileTap={{ scale: 0.9 }}
-                            transition={{ type: "spring", stiffness: 300 }}
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
                             className="text-[#1877F2] hover:text-[#4a9fff] transition-colors duration-300"
                         >
                             <FaFacebook />
