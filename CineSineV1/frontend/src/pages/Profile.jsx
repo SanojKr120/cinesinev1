@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUserCircle, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCog, FaLock, FaCamera, FaTimes, FaSave, FaUndo } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { fetchUserProfile, updateUserProfile } from '../api';
-imp
+
 const DEFAULT_PROFILE = {
     name: 'Guest',
     role: 'User',
