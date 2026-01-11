@@ -48,7 +48,7 @@ function AnimatedRoutes() {
 // Layout wrapper to handle conditional rendering of Navbar/Footer
 function MainLayout() {
     const location = useLocation();
-    const isDashboard = location.pathname.toLowerCase() === '/dashboard';
+    const isDashboard = location.pathname.toLowerCase().startsWith('/dashboard');
 
     return (
         <div className="bg-[#f8f4ed] min-h-screen font-serif text-gray-800 flex flex-col">

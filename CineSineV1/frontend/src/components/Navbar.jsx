@@ -1,48 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaInstagram, FaYoutube, FaFacebook } from 'react-icons/fa';
 import logo from '../logos/cinesinelogo.png';
 
 
 const Navbar = () => {
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const location = useLocation();
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     // Close mobile menu when route changes
     useEffect(() => {
         setIsMobileMenuOpen(false);
     }, [location]);
 
-    // Prevent background scrolling when mobile menu is open
-    useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [isMobileMenuOpen]);
-
-    const isHome = location.pathname === '/';
-
-    // Logic: 
-    // - If Home and NOT scrolled: Text is White (over video).
-    // - If Home and Scrolled: Text is Cream (over black bg).
-    // - If Not Home: Text is Cream (always black bg).
-    // - If Mobile Menu is Open: Text is Cream (on black overlay).
-    const textColorClass = (isHome && !isScrolled && !isMobileMenuOpen) ? 'text-white' : 'text-[#f8f4ed]';
-    const hamburgerColorClass = (isHome && !isScrolled && !isMobileMenuOpen) ? 'bg-white' : 'bg-[#f8f4ed]';
+    // Unified navbar style for all routes
+    const textColorClass = 'text-[#f8f4ed]';
+    const hamburgerColorClass = 'bg-[#f8f4ed]';
 
     const links = [
         { path: '/stories', label: 'Stories' },
@@ -56,7 +30,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled || !isHome ? 'bg-[#1a1a1a]/80 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-6 md:py-8'} px-6 md:px-16 flex justify-between items-center`}>
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out bg-[#1a1a1a]/80 backdrop-blur-md py-4 shadow-sm px-6 md:px-16 flex justify-between items-center`}>
 
             {/* Logo */}
 
@@ -80,7 +54,7 @@ const Navbar = () => {
 
             {/* Mobile/Tablet Menu Button (Hamburger - 2 Lines style like TWS) */}
             <button
-                className="lg:hidden relative z-50 p-4 focus:outline-none group"
+                className="lg:hidden relative z-50 p-2 focus:outline-none group"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle Menu"
             >
@@ -100,30 +74,71 @@ const Navbar = () => {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="fixed inset-0 bg-[#1a1a1a] z-40 flex flex-col items-center justify-center"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "100vh" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-0 top-0 left-0 w-full bg-[#0a0a0a] z-40 flex flex-col items-center justify-center overflow-hidden"
                     >
-                        <ul className="flex flex-col gap-4 text-center">
-                            {links.map((link, index) => (
-                                <motion.li
-                                    key={link.path}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 + index * 0.05 }}
-                                >
-                                    <Link
-                                        to={link.path}
-                                        className={`font-serif text-lg uppercase tracking-[0.2em] hover:text-[#d4af37] transition ${location.pathname === link.path ? 'text-[#f58631]' : 'text-[#f8f4ed]'}`}
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                        {/* Decorative background elements */}
+                        <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-[#f58631]/10 rounded-full blur-[100px] pointer-events-none" />
+                        <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-[#f8f4ed]/5 rounded-full blur-[100px] pointer-events-none" />
+
+                        <div className="flex-grow flex flex-col justify-center w-full">
+                            <ul className="flex flex-col gap-3 text-center">
+                                {links.map((link, index) => (
+                                    <motion.li
+                                        key={link.path}
+                                        initial={{ opacity: 0, y: 50 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 20 }}
+                                        transition={{ delay: 0.1 + index * 0.1, duration: 0.5, ease: "easeOut" }}
                                     >
-                                        {link.label}
-                                    </Link>
-                                </motion.li>
-                            ))}
-                        </ul>
+                                        <Link
+                                            to={link.path}
+                                            className={`font-serif text-xl md:text-5xl font-light uppercase tracking-[0.15em] transition-all duration-500
+                                                ${location.pathname === link.path ? 'text-[#f58631]' : 'text-[#e0e0e0] hover:text-[#d4af37] hover:tracking-[0.25em]'}`}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    </motion.li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Social Icons at Bottom */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8, duration: 0.5 }}
+                            className="mb-12 flex gap-8 text-2xl z-10"
+                        >
+                            <a
+                                href="https://www.instagram.com/cinesineproduction/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#f8f4ed] hover:text-[#E4405F] hover:scale-110 transition-all duration-300"
+                            >
+                                <FaInstagram />
+                            </a>
+                            <a
+                                href="https://youtube.com/@cinesineproduction?si=Wp3O16J2v1vNKhsA"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#f8f4ed] hover:text-[#FF0000] hover:scale-110 transition-all duration-300"
+                            >
+                                <FaYoutube />
+                            </a>
+                            <a
+                                href="https://www.facebook.com/share/15hyk3TY1s/?mibextid=wwXIfr"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#f8f4ed] hover:text-[#1877F2] hover:scale-110 transition-all duration-300"
+                            >
+                                <FaFacebook />
+                            </a>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
