@@ -273,7 +273,7 @@ const Contact = () => {
                 </motion.div>
                 <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
                     <FaPhone className="mx-auto text-gray-400 mb-4" />
-                    <p className="font-serif text-sm text-gray-600">+91 62025 47142</p>
+                    <p className="font-serif text-sm text-gray-600">+91 80027 21888</p>
                 </motion.div>
                 <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
                     <FaEnvelope className="mx-auto text-gray-400 mb-4" />

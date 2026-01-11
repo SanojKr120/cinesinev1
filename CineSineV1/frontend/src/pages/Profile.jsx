@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { FaUserCircle, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCog, FaLock, FaCamera, FaTimes, FaSave, FaUndo } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { fetchUserProfile, updateUserProfile } from '../api';
-
+imp
 const DEFAULT_PROFILE = {
-    name: 'Admin User',
-    role: 'Administrator',
-    email: 'admin@cinesine.com',
-    contact: '+91 98765 43210',
-    address: 'Mumbai, India',
+    name: 'Guest',
+    role: 'User',
+    email: 'guest@cinesine.com',
+    contact: '+91 00000 00000',
+    address: 'India',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400'
 };
 
