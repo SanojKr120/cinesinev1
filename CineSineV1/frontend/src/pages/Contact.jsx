@@ -269,15 +269,15 @@ const Contact = () => {
             >
                 <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
                     <FaMapMarkerAlt className="mx-auto text-gray-400 mb-4" />
-                    <p className="font-serif text-sm text-gray-600">Mumbai, India</p>
+                    <p className="font-serif text-sm text-gray-600">Delhi, India</p>
                 </motion.div>
                 <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
                     <FaPhone className="mx-auto text-gray-400 mb-4" />
-                    <p className="font-serif text-sm text-gray-600">+91 98765 43210</p>
+                    <p className="font-serif text-sm text-gray-600">+91 62025 47142</p>
                 </motion.div>
                 <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
                     <FaEnvelope className="mx-auto text-gray-400 mb-4" />
-                    <p className="font-serif text-sm text-gray-600">hello@cinesine.com</p>
+                    <p className="font-serif text-sm text-gray-600">info@cinesineproduction.com</p>
                 </motion.div>
             </motion.div>
             {/* Success Modal */}

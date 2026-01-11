@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaInstagram, FaYoutube, FaFacebook } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import logo from '../logos/cinesinelogo.png';
 import { Link } from 'react-router-dom';
 
@@ -33,16 +34,49 @@ const Footer = () => {
                 <div className="text-center md:text-right">
                     <h4 className="font-serif text-sm uppercase tracking-[0.2em] mb-6 text-gray-400">Follow Us</h4>
                     <div className="flex justify-center md:justify-end gap-6 text-2xl">
-                        <a href="#" aria-label="Instagram" className="hover:text-[#d4af37] transition"><FaInstagram /></a>
-                        <a href="#" aria-label="YouTube" className="hover:text-[#d4af37] transition"><FaYoutube /></a>
-                        <a href="#" aria-label="Facebook" className="hover:text-[#d4af37] transition"><FaFacebook /></a>
+                        <motion.a
+                            href="https://www.instagram.com/cinesineproduction/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Instagram"
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                            className="text-[#E4405F] hover:text-[#ff6b8a] transition-colors duration-300"
+                        >
+                            <FaInstagram />
+                        </motion.a>
+                        <motion.a
+                            href="https://youtube.com/@cinesineproduction?si=Wp3O16J2v1vNKhsA"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="YouTube"
+                            whileHover={{ scale: 1.2, rotate: -5 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                            className="text-[#FF0000] hover:text-[#ff4d4d] transition-colors duration-300"
+                        >
+                            <FaYoutube />
+                        </motion.a>
+                        <motion.a
+                            href="https://www.facebook.com/share/15hyk3TY1s/?mibextid=wwXIfr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Facebook"
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                            className="text-[#1877F2] hover:text-[#4a9fff] transition-colors duration-300"
+                        >
+                            <FaFacebook />
+                        </motion.a>
                     </div>
                 </div>
             </div>
 
             <div className="border-t border-gray-700 mt-12 pt-8 text-center">
                 <p className="text-xs text-gray-500 font-sans tracking-widest">
-                    &copy; {new Date().getFullYear()} CINESINE. ALL RIGHTS RESERVED.
+                    &copy; {new Date().getFullYear()} CINESINE PRODUCTION. ALL RIGHTS RESERVED.
                 </p>
             </div>
         </footer>

@@ -11,7 +11,7 @@ import {
     createPhotobook, updatePhotobook, createImage, createFilm, updateFilm,
     createPreWedding, updatePreWedding, createStory, updateStory
 } from '../api';
-import logo from '../logos/cinesinelogo2.PNG';
+import logo from '../logos/cinesinelogo.png';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -237,14 +237,14 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className="flex h-screen pt-24 bg-[#f8f4ed] overflow-hidden font-serif">
+        <div className="flex h-screen pt-0 bg-[#f8f4ed] overflow-hidden font-serif">
             {/* Sidebar */}
             <motion.div
                 initial={{ x: -100 }} animate={{ x: 0 }}
                 className="w-64 bg-[#1a1a1a] text-white flex flex-col p-6 shadow-2xl z-10"
             >
                 <div className="mb-10 text-center">
-                    <img src={logo} alt="CineSine" className="w-32 mx-auto m-0 p-0" />
+                    <img src={logo} alt="CineSine" className="w-36 mx-auto m-0 p-0" />
                     <p className="text-[#d4af37] text-xs uppercase tracking-widest mt-2">Dashboard</p>
                 </div>
 

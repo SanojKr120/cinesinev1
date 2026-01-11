@@ -45,32 +45,42 @@ function AnimatedRoutes() {
     );
 }
 
+// Layout wrapper to handle conditional rendering of Navbar/Footer
+function MainLayout() {
+    const location = useLocation();
+    const isDashboard = location.pathname.toLowerCase() === '/dashboard';
+
+    return (
+        <div className="bg-[#f8f4ed] min-h-screen font-serif text-gray-800 flex flex-col">
+            <Toaster
+                position="top-center"
+                toastOptions={{
+                    className: '',
+                    style: {
+                        background: '#1a1a1a',
+                        color: '#f8f4ed',
+                        fontFamily: '"Lato", sans-serif',
+                        letterSpacing: '0.1em',
+                        borderRadius: '0px',
+                        padding: '16px 24px',
+                    },
+                }}
+            />
+            {!isDashboard && <Navbar />}
+            <main className="flex-grow">
+                <AnimatedRoutes />
+            </main>
+            {!isDashboard && <Footer />}
+            {!isDashboard && <FloatingActionButtons />}
+        </div>
+    );
+}
+
 function App() {
     return (
         <Router>
             <ScrollToTop />
-            <div className="bg-[#f8f4ed] min-h-screen font-serif text-gray-800 flex flex-col">
-                <Toaster
-                    position="top-center"
-                    toastOptions={{
-                        className: '',
-                        style: {
-                            background: '#1a1a1a',
-                            color: '#f8f4ed',
-                            fontFamily: '"Lato", sans-serif',
-                            letterSpacing: '0.1em',
-                            borderRadius: '0px',
-                            padding: '16px 24px',
-                        },
-                    }}
-                />
-                <Navbar />
-                <main className="flex-grow">
-                    <AnimatedRoutes />
-                </main>
-                <Footer />
-                <FloatingActionButtons />
-            </div>
+            <MainLayout />
         </Router>
     )
 }
