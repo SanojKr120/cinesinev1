@@ -13,6 +13,7 @@ import {
 } from '../api';
 import logo from '../logos/cinesinelogo.png';
 
+
 const Dashboard = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('stories');
