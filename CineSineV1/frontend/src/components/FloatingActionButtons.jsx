@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaWhatsapp, FaPhone } from 'react-icons/fa';
 
 const FloatingActionButtons = () => {
-    const phoneNumber = "9939394120"; // User provided number
+    const phoneNumber = "8002721888"; // User provided number
     const whatsappMessage = encodeURIComponent("Hello CineSine, I would like to inquire about your services.");
 
     return (
