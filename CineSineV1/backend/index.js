@@ -4,6 +4,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose'; // Needed for health check readystate
+import nodemailer from 'nodemailer';
 import apiRoutes from './routes/apiRoutes.js';
 import connectDB from './config/db.js';
 import { corsOriginCheck } from './config/corsConfig.js';
@@ -71,6 +72,34 @@ app.get('/health', (req, res) => {
         database: statusCodes[dbStatus] || 'unknown',
         timestamp: new Date().toISOString()
     });
+});
+
+// Test SMTP Connection (for debugging)
+app.get('/test-smtp', async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.zoho.in',
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD
+        },
+        tls: { rejectUnauthorized: false }
+    });
+
+    try {
+        await transporter.verify();
+        res.json({ 
+            message: 'SMTP Connected Successfully!',
+            user: process.env.EMAIL_USERNAME 
+        });
+    } catch (error) {
+        console.error('SMTP Verification Error:', error);
+        res.status(500).json({ 
+            error: error.message,
+            user: process.env.EMAIL_USERNAME 
+        });
+    }
 });
 
 // Socket.io Events

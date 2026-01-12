@@ -6,7 +6,11 @@ import Photobook from '../models/Photobook.js';
 import Music from '../models/Music.js';
 import User from '../models/User.js';
 import Image from '../models/Image.js';
+import Contact from '../models/Contact.js';
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -205,43 +209,104 @@ router.post('/music', async (req, res) => {
 });
 
 // --- Contact (Email) ---
+// Industry Standard: Save to DB first, then attempt email notification
+
+// GET all contacts (for admin dashboard)
+router.get('/contacts', async (req, res) => {
+    try {
+        const contacts = await Contact.find().sort({ createdAt: -1 });
+        res.json(contacts);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 router.post('/contact', async (req, res) => {
     const { name, weddingDates, eventDetails, venue, contactNumber, email, referral } = req.body;
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD
-        }
-    });
-
-    const mailOptions = {
-        from: process.env.EMAIL_USERNAME,
-        to: 'sanojkumar2467467@gmail.com', // Destination email from user request
-        subject: `New Contact Form Submission: ${name}`,
-        html: `
-            <h3>New Inquiry from CineSine Contact Form</h3>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Contact Number:</strong> ${contactNumber}</p>
-            <p><strong>Wedding Dates:</strong> ${weddingDates}</p>
-            <p><strong>Venue:</strong> ${venue}</p>
-            <p><strong>Referral Source:</strong> ${referral.join(', ')}</p>
-            <br/>
-            <p><strong>Event Details:</strong></p>
-            <p>${eventDetails}</p>
-        `
-    };
-
-    try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: 'Email sent successfully!' });
-    } catch (error) {
-        console.error('Email sending error:', error);
-        res.status(500).json({ message: 'Failed to send email' });
+    // Validate required fields
+    if (!name || !email || !contactNumber) {
+        return res.status(400).json({ message: 'Name, Email, and Contact Number are required.' });
     }
+
+    // Step 1: Save to database FIRST (leads are never lost)
+    let savedContact;
+    try {
+        savedContact = await Contact.create({
+            name,
+            email,
+            contactNumber,
+            weddingDates,
+            venue,
+            eventDetails,
+            referral: referral || [],
+            emailSent: false
+        });
+        console.log('Contact saved to database:', savedContact._id);
+    } catch (dbError) {
+        console.error('Database save error:', dbError.message);
+        return res.status(500).json({ message: 'Failed to save contact. Please try again.' });
+    }
+
+    // Step 2: Attempt email notification (non-blocking for user)
+    let emailSent = false;
+    
+    if (process.env.EMAIL_USERNAME && process.env.EMAIL_PASSWORD) {
+        try {
+            // Zoho Mail SMTP Configuration (India Server)
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.zoho.in',  // India server
+                port: 587,
+                secure: false,
+                auth: {
+                    user: process.env.EMAIL_USERNAME,
+                    pass: process.env.EMAIL_PASSWORD
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+
+            const mailOptions = {
+                from: process.env.EMAIL_USERNAME,
+                to: process.env.EMAIL_RECIPIENT || process.env.EMAIL_USERNAME,
+                subject: `New Contact Form Submission: ${name}`,
+                html: `
+                    <h3>New Inquiry from CineSine Contact Form</h3>
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Contact Number:</strong> ${contactNumber}</p>
+                    <p><strong>Wedding Dates:</strong> ${weddingDates || 'Not specified'}</p>
+                    <p><strong>Venue:</strong> ${venue || 'Not specified'}</p>
+                    <p><strong>Referral Source:</strong> ${referral?.join(', ') || 'None'}</p>
+                    <br/>
+                    <p><strong>Event Details:</strong></p>
+                    <p>${eventDetails || 'No details provided'}</p>
+                `
+            };
+
+            await transporter.sendMail(mailOptions);
+            emailSent = true;
+            
+            // Update database to mark email as sent
+            await Contact.findByIdAndUpdate(savedContact._id, { emailSent: true });
+            console.log('Email notification sent successfully');
+            
+        } catch (emailError) {
+            console.error('Email sending failed (contact saved to DB):', emailError.message);
+            // Don't fail the request - data is already saved
+        }
+    } else {
+        console.warn('Email credentials not configured. Contact saved to database only.');
+    }
+
+    // Step 3: Return success (data is saved regardless of email status)
+    res.status(200).json({ 
+        message: emailSent 
+            ? 'Your inquiry has been submitted successfully!' 
+            : 'Your inquiry has been received! Our team will contact you soon.',
+        contactId: savedContact._id
+    });
 });
 
 // --- User Profile ---
