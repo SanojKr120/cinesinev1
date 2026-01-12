@@ -81,6 +81,23 @@ io.on('connection', (socket) => {
   });
 });
 
+// --- Industry Standard Error Handling ---
+
+// 404 Handler (for unmatched routes)
+app.use((req, res, next) => {
+    res.status(404).json({ message: `Route not found: ${req.originalUrl}` });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error("Global Error:", err.stack);
+    const statusCode = err.status || 500;
+    res.status(statusCode).json({
+        message: err.message || 'Internal Server Error',
+        error: process.env.NODE_ENV === 'production' ? null : err.message
+    });
+});
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 

@@ -1,23 +1,25 @@
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import FloatingActionButtons from './components/FloatingActionButtons';
+import Loader from './components/Loader';
 
-// Pages
-import Home from './pages/Home';
-import Stories from './pages/Stories';
-import StoryDetail from './pages/StoryDetail';
-import Photobooks from './pages/Photobooks';
-import Images from './pages/Images';
-import Films from './pages/Films';
-import PreWeddings from './pages/PreWeddings';
-import PreWeddingDetail from './pages/PreWeddingDetail';
-import FAQ from './pages/FAQ';
-import Contact from './pages/Contact';
-import Profile from './pages/Profile';
-import Dashboard from './pages/Dashboard';
+// Lazy Load Pages for Performance Code Splitting
+const Home = lazy(() => import('./pages/Home'));
+const Stories = lazy(() => import('./pages/Stories'));
+const StoryDetail = lazy(() => import('./pages/StoryDetail'));
+const Photobooks = lazy(() => import('./pages/Photobooks'));
+const Images = lazy(() => import('./pages/Images'));
+const Films = lazy(() => import('./pages/Films'));
+const PreWeddings = lazy(() => import('./pages/PreWeddings'));
+const PreWeddingDetail = lazy(() => import('./pages/PreWeddingDetail'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 
 import { Toaster } from 'react-hot-toast';
 
@@ -27,20 +29,22 @@ function AnimatedRoutes() {
 
     return (
         <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<Home />} />
-                <Route path="/stories" element={<Stories />} />
-                <Route path="/stories/:id" element={<StoryDetail />} />
-                <Route path="/photobooks" element={<Photobooks />} />
-                <Route path="/images" element={<Images />} />
-                <Route path="/films" element={<Films />} />
-                <Route path="/pre-weddings" element={<PreWeddings />} />
-                <Route path="/pre-wedding/:id" element={<PreWeddingDetail />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
+            <Suspense fallback={<div className="h-screen flex items-center justify-center"><Loader /></div>}>
+                <Routes location={location} key={location.pathname}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/stories" element={<Stories />} />
+                    <Route path="/stories/:id" element={<StoryDetail />} />
+                    <Route path="/photobooks" element={<Photobooks />} />
+                    <Route path="/images" element={<Images />} />
+                    <Route path="/films" element={<Films />} />
+                    <Route path="/pre-weddings" element={<PreWeddings />} />
+                    <Route path="/pre-wedding/:id" element={<PreWeddingDetail />} />
+                    <Route path="/faq" element={<FAQ />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                </Routes>
+            </Suspense>
         </AnimatePresence>
     );
 }
