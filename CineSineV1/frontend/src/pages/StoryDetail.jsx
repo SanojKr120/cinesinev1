@@ -54,7 +54,7 @@ const StoryDetail = () => {
             className="min-h-screen bg-[#f8f4ed] overflow-x-hidden"
         >
             {/* Hero Section */}
-            <div className="relative pt-32 pb-16 px-6 text-center">
+            <div className="relative pt-32 pb-16 px-0 md:px-6 text-center">
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -115,10 +115,10 @@ const StoryDetail = () => {
                         <iframe
                             width="100%"
                             height="100%"
-                            src={`https://www.youtube.com/embed/${extractVideoId(story.videoUrl)}?rel=0&modestbranding=1`}
+                            src={`https://www.youtube-nocookie.com/embed/${extractVideoId(story.videoUrl)}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&fs=1&color=white`}
                             title="Main Story Video"
                             frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                             allowFullScreen
                             className="w-full h-full"
                         ></iframe>
@@ -150,10 +150,10 @@ const StoryDetail = () => {
                                         <iframe
                                             width="100%"
                                             height="100%"
-                                            src={`https://www.youtube.com/embed/${vId}?rel=0&modestbranding=1`}
+                                            src={`https://www.youtube-nocookie.com/embed/${vId}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&fs=1&color=white`}
                                             title={`Sub Video ${index}`}
                                             frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                                             allowFullScreen
                                             className="w-full h-full"
                                         ></iframe>

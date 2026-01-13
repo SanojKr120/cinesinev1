@@ -55,7 +55,7 @@ const PreWeddingDetail = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="pt-24 px-6 min-h-screen bg-[#f8f4ed]"
+            className="pt-24 px-0 md:px-6 min-h-screen bg-[#f8f4ed]"
         >
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -126,10 +126,10 @@ const PreWeddingDetail = () => {
                                         <iframe
                                             width="100%"
                                             height="100%"
-                                            src={`https://www.youtube.com/embed/${vId}?rel=0&modestbranding=1`}
+                                            src={`https://www.youtube-nocookie.com/embed/${vId}?rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&fs=1&color=white`}
                                             title={`Video ${index}`}
                                             frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                                             allowFullScreen
                                             className="w-full h-full"
                                         ></iframe>

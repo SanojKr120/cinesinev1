@@ -69,7 +69,7 @@ const Films = () => {
                 initial="hidden"
                 animate="visible"
                 variants={staggerContainer}
-                className="flex flex-col gap-20 md:gap-32 max-w-6xl mx-auto px-4 md:px-8 pb-24"
+                className="flex flex-col gap-20 md:gap-32 max-w-6xl mx-auto px-0 md:px-8 pb-24"
             >
                 {films.map((film, index) => {
                     const videoId = extractVideoId(film.videoUrl);
@@ -95,13 +95,14 @@ const Films = () => {
                                             IFRAME LOGIC:
                                             - Interactive: Controls=1, Autoplay=1 (User Clicked), Scale=1 (Fit all UI)
                                             - Ambient: Controls=0, Mute=1, Loop=1, Scale=1.5 (Zoom/Crop Black Bars)
+                                            - Privacy Enhanced: youtube-nocookie.com prevents tracking
                                          */}
                                         <iframe
                                             width="100%"
                                             height="100%"
                                             src={isInteractive
-                                                ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&color=white`
-                                                : `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`
+                                                ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&color=white&playsinline=1&fs=1&disablekb=0`
+                                                : `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1`
                                             }
                                             title={film.title}
                                             frameBorder="0"
@@ -131,7 +132,7 @@ const Films = () => {
                                             className="absolute inset-0 pointer-events-none"
                                         >
                                             {/* Gradient */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
 
                                             {/* Play / Unmute Button (Center) - POINTER EVENTS AUTO */}
                                             <div className="absolute inset-0 flex items-center justify-center pointer-events-auto">
@@ -143,32 +144,31 @@ const Films = () => {
                                                     <span className="text-xs font-sans uppercase tracking-widest font-bold">Watch Film</span>
                                                 </button>
                                             </div>
-
-                                            {/* Text Content */}
-                                            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-center pointer-events-auto">
-                                                <h2 className="text-2xl md:text-4xl lg:text-5xl font-serif text-white uppercase tracking-[0.15em] drop-shadow-lg mb-2">
-                                                    {film.coupleName}
-                                                </h2>
-                                                {film.tagline && (
-                                                    <p className="text-base md:text-lg text-white/90 italic font-serif drop-shadow-md">
-                                                        {film.tagline}
-                                                    </p>
-                                                )}
-                                            </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
                             </motion.div>
 
-                            {/* Film Title Below Video */}
+                            {/* Film Info Below Video */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6, delay: 0.2 }}
-                                className="text-center mt-8 md:mt-12"
+                                className="text-center mt-8 md:mt-12 px-4"
                             >
-                                <h3 className="text-sm md:text-base font-sans uppercase tracking-[0.3em] text-[#525252] mb-3">
+                                {/* Couple Name */}
+                                <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-[#333] uppercase tracking-[0.15em] mb-2">
+                                    {film.coupleName}
+                                </h2>
+                                {/* Tagline */}
+                                {film.tagline && (
+                                    <p className="text-sm md:text-base text-gray-500 italic font-serif mb-4">
+                                        {film.tagline}
+                                    </p>
+                                )}
+                                {/* Film Title */}
+                                <h3 className="text-xs md:text-sm font-sans uppercase tracking-[0.3em] text-[#707070] mb-3">
                                     {film.title || 'Wedding Film'}
                                 </h3>
                                 <motion.div
