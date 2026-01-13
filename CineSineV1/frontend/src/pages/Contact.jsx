@@ -125,7 +125,7 @@ const Contact = () => {
                         <input
                             id="weddingDates"
                             type="text"
-                            placeholder="e.g. 24th - 26th Dec 2025"
+                            placeholder="e.g. Start Date - End Date - Month - Year"
                             {...formik.getFieldProps('weddingDates')}
                             className="w-full bg-transparent border-b border-gray-400 px-0 py-3 focus:border-black outline-none transition-all duration-300 rounded-none placeholder-gray-400 font-serif"
                         />
