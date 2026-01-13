@@ -94,10 +94,12 @@ const Home = () => {
                     />
 
                     <p className="max-w-4xl mx-auto text-gray-600 font-serif leading-loose text-xl italic mb-8">
-                        "Imagine waking up to a job that lifts you up and transports you to a different world."
+                        "Where every frame captures the soul of your story, turning fleeting moments into cinematic eternity."
                     </p>
                     <p className="max-w-3xl mx-auto text-gray-500 font-sans tracking-wide leading-relaxed text-sm uppercase">
-                        A world populated with a billion heartfelt feelings and stories etched ceremoniously in magic, love and joie de vivre.
+                        {/* A world populated with a billion heartfelt feelings and stories etched ceremoniously in magic, love and joie de vivre. */}
+
+                        Immerse in a realm of cinematic videography and photography, weaving emotions, light, and motion into timeless masterpieces filled with passion, elegance, and boundless creativity
                     </p>
                 </AnimatedSection>
             </section>
