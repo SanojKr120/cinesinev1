@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <footer className="bg-[#1a1a1a] text-[#f8f4ed] py-16 px-6">
+        <footer className="bg-[#1a1a1a] text-[#f8f4ed] py-16 mt-4 px-6">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
                 {/* Brand */}
                 <div className="text-center md:text-left">
@@ -35,7 +35,7 @@ const Footer = () => {
                     <h4 className="font-serif text-sm uppercase tracking-[0.2em] mb-6 text-gray-400">Follow Us</h4>
                     <div className="flex justify-center md:justify-end gap-6 text-2xl">
                         <motion.a
-                            href="https://www.instagram.com/cinesineproduction/"
+                            href="https://www.instagram.com/cinesine_?igsh=bWRzaDRtdmpyc2lu"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Instagram"

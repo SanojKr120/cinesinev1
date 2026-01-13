@@ -50,7 +50,7 @@ const Home = () => {
                         transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
                         className="flex flex-col items-center"
                     >
-                        <p className="text-sm md:text-lg font-serif tracking-[0.3em] uppercase mb-8 drop-shadow-md">
+                        <p className="text-sm md:text-lg font-serif tracking-[0.3em] uppercase mb-8 text-white drop-shadow-md">
                             CRAFTING YOUR STORY IN MOTION
                         </p>
                         <motion.div
