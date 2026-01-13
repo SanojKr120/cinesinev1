@@ -7,6 +7,7 @@ import Music from '../models/Music.js';
 import User from '../models/User.js';
 import Image from '../models/Image.js';
 import Contact from '../models/Contact.js';
+import SocialLink from '../models/SocialLink.js';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
@@ -521,6 +522,44 @@ router.get('/seed', async (req, res) => {
         res.json({ message: "Database seeded successfully via API!" });
     } catch (err) {
         console.error(err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// --- Social Links ---
+router.get('/social-links', async (req, res) => {
+    try {
+        const links = await SocialLink.find();
+        res.json(links);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+router.post('/social-links', async (req, res) => {
+    try {
+        const newLink = new SocialLink(req.body);
+        const savedLink = await newLink.save();
+        res.status(201).json(savedLink);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+router.put('/social-links/:id', async (req, res) => {
+    try {
+        const updatedLink = await SocialLink.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedLink);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+router.delete('/social-links/:id', async (req, res) => {
+    try {
+        await SocialLink.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Social link deleted' });
+    } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });

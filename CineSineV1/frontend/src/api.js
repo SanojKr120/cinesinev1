@@ -73,3 +73,8 @@ export const fetchImages = () => api.get('/images');
 export const createImage = (data) => api.post('/images', data);
 export const deleteImage = (id) => api.delete(`/images/${id}`);
 
+export const fetchSocialLinks = () => api.get('/social-links');
+export const createSocialLink = (data) => api.post('/social-links', data);
+export const updateSocialLink = (id, data) => api.put(`/social-links/${id}`, data);
+export const deleteSocialLink = (id) => api.delete(`/social-links/${id}`);
+

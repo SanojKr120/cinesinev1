@@ -9,7 +9,8 @@ import {
     fetchStories, fetchFilms, fetchPreWeddings, fetchPhotobooks, fetchImages,
     deleteStory, deleteFilm, deletePreWedding, deletePhotobook, deleteImage,
     createPhotobook, updatePhotobook, createImage, createFilm, updateFilm,
-    createPreWedding, updatePreWedding, createStory, updateStory
+    createPreWedding, updatePreWedding, createStory, updateStory,
+    fetchSocialLinks, createSocialLink, updateSocialLink, deleteSocialLink
 } from '../api';
 import logo from '../logos/cinesinelogo.png';
 
@@ -52,6 +53,7 @@ const Dashboard = () => {
             else if (activeTab === 'preWeddings') res = await fetchPreWeddings();
             else if (activeTab === 'photobooks') res = await fetchPhotobooks();
             else if (activeTab === 'images') res = await fetchImages();
+            else if (activeTab === 'social') res = await fetchSocialLinks();
 
             setItems(res.data);
         } catch (error) {
@@ -71,6 +73,7 @@ const Dashboard = () => {
             else if (activeTab === 'preWeddings') await deletePreWedding(id);
             else if (activeTab === 'photobooks') await deletePhotobook(id);
             else if (activeTab === 'images') await deleteImage(id);
+            else if (activeTab === 'social') await deleteSocialLink(id);
 
             toast.success('Item Deleted');
             loadData(); // Refresh
@@ -198,6 +201,10 @@ const Dashboard = () => {
             if (!currentItem.title || !currentItem.imageUrl) return toast.error('Title and Image Required');
             promise = isEditing ? Promise.reject('Edit not implemented') : createImage(currentItem);
 
+        } else if (activeTab === 'social') {
+            if (!currentItem.platform || !currentItem.url) return toast.error('Platform and URL are required');
+            promise = isEditing ? updateSocialLink(currentItem._id, currentItem) : createSocialLink(currentItem);
+
         } else if (activeTab === 'films') {
             if (!currentItem.title || !currentItem.coupleName || !currentItem.videoUrl) return toast.error('Fields Required');
             promise = isEditing ? updateFilm(currentItem._id, currentItem) : createFilm(currentItem);
@@ -235,6 +242,7 @@ const Dashboard = () => {
         { id: 'preWeddings', label: 'Pre-Weddings', icon: <FaHeart /> },
         { id: 'photobooks', label: 'Photobooks', icon: <FaBookOpen /> },
         { id: 'images', label: 'Gallery Images', icon: <FaImages /> },
+        { id: 'social', label: 'Social Media', icon: <FaLink /> },
     ];
 
     return (
@@ -313,32 +321,40 @@ const Dashboard = () => {
                                     </div>
 
                                     {/* Thumbnail */}
-                                    <div className="h-40 bg-gray-100 mb-4 overflow-hidden relative">
-                                        <img
-                                            src={
-                                                item.coverImage ||
-                                                item.mainImage ||
-                                                item.imageUrl ||
-                                                (item.images && item.images[0]) ||
-                                                (item.videoUrl ? `https://img.youtube.com/vi/${item.videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^#&?]*)/)?.[1]}/hqdefault.jpg` : '') ||
-                                                (item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : '') ||
-                                                'https://via.placeholder.com/300'
-                                            }
-                                            alt={item.title || item.coupleName}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => e.target.src = 'https://via.placeholder.com/300?text=No+Preview'}
-                                        />
+                                    <div className="h-40 bg-gray-100 mb-4 overflow-hidden relative flex items-center justify-center">
+                                        {activeTab === 'social' ? (
+                                            <div className="text-4xl text-gray-400">
+                                                {item.platform === 'Instagram' && <FaBookOpen />}
+                                                {/* Re-using icons for demo since we didn't import specifics, but platform text is shown below */}
+                                                <span className="text-2xl font-bold text-gray-300">{item.platform?.[0]}</span>
+                                            </div>
+                                        ) : (
+                                            <img
+                                                src={
+                                                    item.coverImage ||
+                                                    item.mainImage ||
+                                                    item.imageUrl ||
+                                                    (item.images && item.images[0]) ||
+                                                    (item.videoUrl ? `https://img.youtube.com/vi/${item.videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^#&?]*)/)?.[1]}/hqdefault.jpg` : '') ||
+                                                    (item.videoId ? `https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg` : '') ||
+                                                    'https://via.placeholder.com/300'
+                                                }
+                                                alt={item.title || item.coupleName}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => e.target.src = 'https://via.placeholder.com/300?text=No+Preview'}
+                                            />
+                                        )}
                                     </div>
 
                                     {/* Info */}
                                     <h3 className="font-bold text-[#333] uppercase tracking-wider text-sm mb-1 truncate">
-                                        {item.title || item.coupleName || item.coupleNames}
+                                        {item.title || item.coupleName || item.coupleNames || item.platform}
                                     </h3>
                                     <p className="text-xs text-gray-500 mb-2 truncate">
-                                        {item.location || item.city || item.category || item.tagline || item.personName}
+                                        {item.location || item.city || item.category || item.tagline || item.personName || item.url}
                                     </p>
                                     <div className="text-[10px] text-gray-400 uppercase tracking-widest bg-gray-100 inline-block px-2 py-1 rounded-sm">
-                                        {activeTab === 'stories' ? item.type : (activeTab === 'images' ? item.category : activeTab.slice(0, -1))}
+                                        {activeTab === 'stories' ? item.type : (activeTab === 'images' ? item.category : (activeTab === 'social' ? 'Social Link' : activeTab.slice(0, -1)))}
                                     </div>
                                 </motion.div>
                             ))}
@@ -379,6 +395,43 @@ const Dashboard = () => {
 
                             <div className="p-8 overflow-y-auto custom-scrollbar">
                                 <form onSubmit={handleSubmit} className="space-y-6">
+
+                                    {/* --- SOCIAL LINKS FORM --- */}
+                                    {activeTab === 'social' && (
+                                        <>
+                                            <div className="space-y-4">
+                                                <div className="space-y-1">
+                                                    <label className="text-xs text-gray-500 uppercase tracking-wider font-bold">Platform Name</label>
+                                                    <select
+                                                        value={currentItem.platform || ''}
+                                                        onChange={e => setCurrentItem({ ...currentItem, platform: e.target.value })}
+                                                        className="w-full border-b border-gray-300 py-2 focus:border-[#d4af37] outline-none font-serif bg-transparent"
+                                                        required
+                                                    >
+                                                        <option value="" disabled>Select Platform</option>
+                                                        <option value="Instagram">Instagram</option>
+                                                        <option value="YouTube">YouTube</option>
+                                                        <option value="Facebook">Facebook</option>
+                                                        <option value="Twitter">Twitter</option>
+                                                        <option value="LinkedIn">LinkedIn</option>
+                                                        <option value="Pinterest">Pinterest</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <label className="text-xs text-gray-500 uppercase tracking-wider font-bold">Profile URL</label>
+                                                    <input
+                                                        type="url"
+                                                        value={currentItem.url || ''}
+                                                        onChange={e => setCurrentItem({ ...currentItem, url: e.target.value })}
+                                                        className="w-full border-b border-gray-300 py-2 focus:border-[#d4af37] outline-none font-serif"
+                                                        placeholder="https://instagram.com/yourprofile"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
 
                                     {/* --- PRE-WEDDINGS AND STORIES SHARE SIMILAR ARRAY LOGIC --- */}
 

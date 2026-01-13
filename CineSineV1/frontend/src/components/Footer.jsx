@@ -1,10 +1,64 @@
-import React from 'react';
-import { FaInstagram, FaYoutube, FaFacebook } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaInstagram, FaYoutube, FaFacebook, FaTwitter, FaLinkedin, FaPinterest, FaLink } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import logo from '../logos/cinesinelogo.png';
 import { Link } from 'react-router-dom';
+import { fetchSocialLinks } from '../api';
 
 const Footer = () => {
+    const [socialLinks, setSocialLinks] = useState([]);
+
+    useEffect(() => {
+        const getLinks = async () => {
+            try {
+                const res = await fetchSocialLinks();
+                if (res.data && res.data.length > 0) {
+                    setSocialLinks(res.data);
+                } else {
+                    // Fallback to defaults if no dynamic links exist yet
+                    setSocialLinks([
+                        { platform: 'Instagram', url: 'https://www.instagram.com/cinesine_?igsh=bWRzaDRtdmpyc2lu' },
+                        { platform: 'YouTube', url: 'https://youtube.com/@cinesineproduction?si=Wp3O16J2v1vNKhsA' },
+                        { platform: 'Facebook', url: 'https://www.facebook.com/share/15hyk3TY1s/?mibextid=wwXIfr' }
+                    ]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch social links", error);
+                // Fallback on error
+                setSocialLinks([
+                    { platform: 'Instagram', url: 'https://www.instagram.com/cinesine_?igsh=bWRzaDRtdmpyc2lu' },
+                    { platform: 'YouTube', url: 'https://youtube.com/@cinesineproduction?si=Wp3O16J2v1vNKhsA' },
+                    { platform: 'Facebook', url: 'https://www.facebook.com/share/15hyk3TY1s/?mibextid=wwXIfr' }
+                ]);
+            }
+        };
+        getLinks();
+    }, []);
+
+    const getIcon = (platform) => {
+        switch (platform?.toLowerCase()) {
+            case 'instagram': return <FaInstagram />;
+            case 'youtube': return <FaYoutube />;
+            case 'facebook': return <FaFacebook />;
+            case 'twitter': return <FaTwitter />;
+            case 'linkedin': return <FaLinkedin />;
+            case 'pinterest': return <FaPinterest />;
+            default: return <FaLink />;
+        }
+    };
+
+    const getColorClass = (platform) => {
+        switch (platform?.toLowerCase()) {
+            case 'instagram': return "text-[#E4405F] hover:text-[#ff6b8a]";
+            case 'youtube': return "text-[#FF0000] hover:text-[#ff4d4d]";
+            case 'facebook': return "text-[#1877F2] hover:text-[#4a9fff]";
+            case 'twitter': return "text-[#1DA1F2] hover:text-[#4ab3ff]";
+            case 'linkedin': return "text-[#0077b5] hover:text-[#3399cc]";
+            case 'pinterest': return "text-[#E60023] hover:text-[#ff3350]";
+            default: return "text-gray-400 hover:text-white";
+        }
+    };
+
     return (
         <footer className="bg-[#1a1a1a] text-[#f8f4ed] py-16 mt-4 px-6">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -34,42 +88,21 @@ const Footer = () => {
                 <div className="text-center md:text-right">
                     <h4 className="font-serif text-sm uppercase tracking-[0.2em] mb-6 text-gray-400">Follow Us</h4>
                     <div className="flex justify-center md:justify-end gap-6 text-2xl">
-                        <motion.a
-                            href="https://www.instagram.com/cinesine_?igsh=bWRzaDRtdmpyc2lu"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Instagram"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="text-[#E4405F] hover:text-[#ff6b8a] transition-colors duration-300"
-                        >
-                            <FaInstagram />
-                        </motion.a>
-                        <motion.a
-                            href="https://youtube.com/@cinesineproduction?si=Wp3O16J2v1vNKhsA"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="YouTube"
-                            whileHover={{ scale: 1.1, rotate: -5 }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="text-[#FF0000] hover:text-[#ff4d4d] transition-colors duration-300"
-                        >
-                            <FaYoutube />
-                        </motion.a>
-                        <motion.a
-                            href="https://www.facebook.com/share/15hyk3TY1s/?mibextid=wwXIfr"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Facebook"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="text-[#1877F2] hover:text-[#4a9fff] transition-colors duration-300"
-                        >
-                            <FaFacebook />
-                        </motion.a>
+                        {socialLinks.map((link, index) => (
+                            <motion.a
+                                key={index}
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={link.platform}
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className={`${getColorClass(link.platform)} transition-colors duration-300`}
+                            >
+                                {getIcon(link.platform)}
+                            </motion.a>
+                        ))}
                     </div>
                 </div>
             </div>
