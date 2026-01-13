@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { fetchStoryById } from '../api';
 import Loader from '../components/Loader';
 import { fadeInUp, staggerContainer } from '../components/AnimationUtils';
-import { FaHeart, FaFacebookF, FaTwitter, FaPinterestP } from 'react-icons/fa';
+import { FaHeart, FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin, FaPinterest, FaLink } from 'react-icons/fa';
+import { fetchSocialLinks } from '../api';
 
 // Helper to extract video ID
 const extractVideoId = (url) => {
@@ -23,18 +24,61 @@ const StoryDetail = () => {
     const navigate = useNavigate();
     const [story, setStory] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [socialLinks, setSocialLinks] = useState([]);
 
     useEffect(() => {
-        fetchStoryById(id)
-            .then(res => {
-                setStory(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
+        const loadData = async () => {
+            setLoading(true);
+            try {
+                // Fetch Story
+                const storyRes = await fetchStoryById(id);
+                setStory(storyRes.data);
+
+                // Fetch Social Links
+                const socialRes = await fetchSocialLinks();
+                if (socialRes.data && socialRes.data.length > 0) {
+                    setSocialLinks(socialRes.data);
+                } else {
+                    setSocialLinks([
+                        { platform: 'Instagram', url: 'https://www.instagram.com/cinesine_?igsh=bWRzaDRtdmpyc2lu' },
+                        { platform: 'YouTube', url: 'https://youtube.com/@cinesineproduction?si=Wp3O16J2v1vNKhsA' },
+                        { platform: 'Facebook', url: 'https://www.facebook.com/share/15hyk3TY1s/?mibextid=wwXIfr' }
+                    ]);
+                }
+            } catch (err) {
                 console.error(err);
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+        loadData();
     }, [id]);
+
+    // Helper for icons (Same as Footer)
+    const getIcon = (platform) => {
+        switch (platform?.toLowerCase()) {
+            case 'instagram': return <FaInstagram />;
+            case 'youtube': return <FaYoutube />;
+            case 'facebook': return <FaFacebook />;
+            case 'twitter': return <FaTwitter />;
+            case 'linkedin': return <FaLinkedin />;
+            case 'pinterest': return <FaPinterest />;
+            default: return <FaLink />;
+        }
+    };
+
+    // Helper for colors (Same as Footer)
+    const getColorClass = (platform) => {
+        switch (platform?.toLowerCase()) {
+            case 'instagram': return "text-[#E4405F] hover:text-[#ff6b8a]";
+            case 'youtube': return "text-[#FF0000] hover:text-[#ff4d4d]";
+            case 'facebook': return "text-[#1877F2] hover:text-[#4a9fff]";
+            case 'twitter': return "text-[#1DA1F2] hover:text-[#4ab3ff]";
+            case 'linkedin': return "text-[#0077b5] hover:text-[#3399cc]";
+            case 'pinterest': return "text-[#E60023] hover:text-[#ff3350]";
+            default: return "text-gray-400 hover:text-black";
+        }
+    };
 
     if (loading) return <Loader />;
 
@@ -186,10 +230,22 @@ const StoryDetail = () => {
 
                 {/* Social Share & Interaction */}
                 <div className="mt-24 border-t border-gray-300 pt-12 flex flex-col items-center">
-                    <div className="flex gap-8 mb-8 text-gray-400">
-                        <FaFacebookF className="hover:text-[#333] cursor-pointer transition-colors" />
-                        <FaTwitter className="hover:text-[#333] cursor-pointer transition-colors" />
-                        <FaPinterestP className="hover:text-[#333] cursor-pointer transition-colors" />
+                    <div className="flex gap-8 mb-8 text-2xl">
+                        {socialLinks.map((link, index) => (
+                            <motion.a
+                                key={index}
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={link.platform}
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className={`${getColorClass(link.platform)} transition-colors duration-300 cursor-pointer`}
+                            >
+                                {getIcon(link.platform)}
+                            </motion.a>
+                        ))}
                     </div>
                     <button className="flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-full hover:border-red-500 hover:text-red-500 transition-all group">
                         <FaHeart className="text-gray-300 group-hover:text-red-500 transition-colors" />
