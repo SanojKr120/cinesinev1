@@ -271,13 +271,28 @@ const Contact = () => {
                     <FaMapMarkerAlt className="mx-auto text-gray-400 mb-4" />
                     <p className="font-serif text-sm text-gray-600">Delhi, India</p>
                 </motion.div>
-                <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                    <FaPhone className="mx-auto text-gray-400 mb-4" />
-                    <p className="font-serif text-sm text-gray-600">+91 80027 21888</p>
+                <motion.div
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => {
+                        navigator.clipboard.writeText('+91 80027 21888');
+                        toast.success('Number Copied!');
+                    }}
+                    className="cursor-pointer group"
+                    title="Click to Copy"
+                >
+                    <FaPhone className="mx-auto text-gray-400 mb-4 group-hover:text-black transition-colors" />
+                    <p className="font-serif text-sm text-gray-600 group-hover:text-black transition-colors">+91 80027 21888</p>
                 </motion.div>
-                <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                    <FaEnvelope className="mx-auto text-gray-400 mb-4" />
-                    <p className="font-serif text-sm text-gray-600">info@cinesineproduction.com</p>
+                <motion.div
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => window.location.href = "mailto:info@cinesineproduction.com"}
+                    className="cursor-pointer group"
+                    title="Click to Email"
+                >
+                    <FaEnvelope className="mx-auto text-gray-400 mb-4 group-hover:text-black transition-colors" />
+                    <p className="font-serif text-sm text-gray-600 group-hover:text-black transition-colors">info@cinesineproduction.com</p>
                 </motion.div>
             </motion.div>
             {/* Success Modal */}
