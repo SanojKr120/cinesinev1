@@ -6,7 +6,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://cinesinev1f.vercel.app",
-  "https://cinesideproduction.com",
+  "https://cinesineproduction.com",
   process.env.FRONTEND_URL 
 ].filter(Boolean);
 
