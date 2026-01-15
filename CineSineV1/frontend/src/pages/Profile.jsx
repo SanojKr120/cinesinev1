@@ -348,7 +348,7 @@ const Profile = () => {
                             className="bg-white p-8 rounded-sm max-w-sm w-full shadow-2xl relative"
                             onClick={e => e.stopPropagation()}
                         >
-                            <h3 className="text-xl font-serif text-center mb-6 tracking-widest uppercase">Admin Access</h3>
+                            <h3 className="text-xl font-serif text-center mb-6 tracking-widest uppercase"> Office Use Only </h3>
                             <form onSubmit={handleLogin} className="space-y-6">
                                 <div className="relative">
                                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -365,7 +365,7 @@ const Profile = () => {
                                     type="submit"
                                     className="w-full bg-[#1a1a1a] text-white py-3 font-serif uppercase tracking-[0.2em] text-xs hover:bg-[#333] transition-colors"
                                 >
-                                    Go to Dashboard
+                                    Next
                                 </button>
                             </form>
                         </motion.div>
